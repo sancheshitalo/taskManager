@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,8 +12,15 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('/', function () {
-    return view('welcome');
+
+    try {
+        DB::connection()->getPdo();
+        echo 'Conexão efetuada com sucesso. ' . DB::connection()->getDatabaseName();
+    } catch (\Exception $e) {
+        die('Não foi possível conectar a base de dados' . $e->getMessage());
+    }
+
 });
